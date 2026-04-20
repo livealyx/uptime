@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Notification Settings – Manage Slack, Discord, and Webhook integrations.">
+    <title>Notification Settings – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Notification Settings</h1>
+                            <p class="page-desc">Manage system-wide alert delivery and escalation rules.</p>
+                        </div>
+                        <button class="btn btn-outline" onclick="App.showToast('Testing all channels...','info')">
+                            <span class="static-icon" data-icon="zap" data-size="16"></span> Test All Channels
+                        </button>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-nav">
+                            <a href="admin-settings-general.html" class="settings-nav-item">General</a>
+                            <a href="admin-settings-branding.html" class="settings-nav-item">Branding</a>
+                            <a href="admin-settings-email.html" class="settings-nav-item">Email</a>
+                            <a href="admin-settings-notifications.html" class="settings-nav-item active">Notifications</a>
+                            <a href="admin-settings-api.html" class="settings-nav-item">API Keys</a>
+                            <a href="admin-settings-security.html" class="settings-nav-item">Security</a>
+                        </div>
+                        <div class="settings-panel">
+                            <div class="alert-reach-box">
+                                <div class="reach-item">
+                                    <span class="reach-val">1.2k</span>
+                                    <span class="reach-label">Alerts Sent Today</span>
+                                </div>
+                                <div class="reach-divider"></div>
+                                <div class="reach-item">
+                                    <span class="reach-val">340ms</span>
+                                    <span class="reach-label">Avg. Latency</span>
+                                </div>
+                                <div class="reach-divider"></div>
+                                <div class="reach-item">
+                                    <span class="reach-val">99.9%</span>
+                                    <span class="reach-label">Delivery Rate</span>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Global Alert Channels</div>
+                                <div class="integration-item">
+                                    <div class="integration-icon" style="background:#4A154B;color:#fff"><span class="static-icon" data-icon="slack" data-size="20"></span></div>
+                                    <div class="integration-details">
+                                        <div class="integration-name">Slack Integration</div>
+                                        <div class="integration-status active">Connected • incident-log</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline">Configure</button>
+                                </div>
+                                <div class="integration-item">
+                                    <div class="integration-icon" style="background:#5865F2;color:#fff"><span class="static-icon" data-icon="discord" data-size="20"></span></div>
+                                    <div class="integration-details">
+                                        <div class="integration-name">Discord Webhook</div>
+                                        <div class="integration-status">Not connected</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary">Connect</button>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Advanced Logic</div>
+                                <div class="logic-stack">
+                                    <div class="logic-item">
+                                        <div class="logic-info">
+                                            <div class="logic-title">Resolution Feedback</div>
+                                            <div class="logic-desc">Send "UP" notification after incident resolution.</div>
+                                        </div>
+                                        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="logic-item">
+                                        <div class="logic-info">
+                                            <div class="logic-title">SMS Escalation</div>
+                                            <div class="logic-desc">Escalate via Twilio/SMS after 10 minutes of persistent downtime.</div>
+                                        </div>
+                                        <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+                                    </div>
+                                    <div class="logic-item">
+                                        <div class="logic-info">
+                                            <div class="logic-title">Duplicate Suppression</div>
+                                            <div class="logic-desc">Mute repeated alerts for the same incident within a 1-hour window.</div>
+                                        </div>
+                                        <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-actions">
+                                <button class="btn btn-primary" onclick="App.showToast('Changes committed successfully','success')">Save Configuration</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-settings');
+            App.$$('.static-icon').forEach(el => {
+                el.innerHTML = App.icon(el.dataset.icon, el.dataset.size || 24);
+            });
+        });
+    </script>
+</body>
+</html>

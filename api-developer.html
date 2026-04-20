@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Developer Center – API documentation, webhooks management, and SDK integration tools.">
+    <title>Developer Center – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Developer Center</h1>
+                            <p class="page-desc">Integrate Uptime into your own stack with robust APIs and webhooks.</p>
+                        </div>
+                    </div>
+
+                    <div class="dev-portal-redesign">
+                        
+                        <!-- 1. AUTHENTICATION VAULT BANNER -->
+                        <div class="card dev-vault-banner">
+                            <div class="vault-banner-left">
+                                <div class="v-icon-glow"><span class="static-icon" data-icon="shield-tick" data-size="28"></span></div>
+                                <div>
+                                    <h2 class="card-title">Authentication Vault</h2>
+                                    <p class="card-desc">Securely manage your API keys for programmatic access.</p>
+                                </div>
+                            </div>
+                            <div class="vault-banner-right">
+                                <div class="key-item-light horizontal-key">
+                                    <div class="key-left">
+                                        <div class="key-icon-light"><span class="static-icon" data-icon="terminal" data-size="16"></span></div>
+                                        <div class="key-data">
+                                            <div class="key-name">Production <span class="badge badge-success" style="margin-left:6px; font-size:0.6rem;">Active</span></div>
+                                            <div class="key-string">sk_live_••••••••••••••••3a9b</div>
+                                        </div>
+                                    </div>
+                                    <div class="key-right">
+                                        <button class="btn-icon-light" title="Copy Key"><span class="static-icon" data-icon="copy" data-size="14"></span></button>
+                                        <button class="btn-icon-light" title="Settings"><span class="static-icon" data-icon="settings" data-size="14"></span></button>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" onclick="App.showToast('Generating new production key...','info')">
+                                    <span class="static-icon" data-icon="add" data-size="16"></span> Create Secret Key
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 2. CORE DEV GRID -->
+                        <div class="dev-core-grid">
+                            
+                            <!-- PLAYGROUND -->
+                            <div class="card playground-enhanced">
+                                <div class="playground-nav">
+                                    <div class="p-nav-group">
+                                        <button class="p-tab active">Node.js</button>
+                                        <button class="p-tab">Python</button>
+                                        <button class="p-tab">PHP</button>
+                                        <button class="p-tab">cURL</button>
+                                    </div>
+                                    <button class="btn-icon-sm" title="Copy Snippet"><span class="static-icon" data-icon="copy" data-size="16"></span></button>
+                                </div>
+                                <div class="code-editor-light">
+                                    <pre><code><span class="l-kw">const</span> Uptime = <span class="l-fn">require</span>(<span class="l-st">'@uptime-prime/sdk'</span>);
+<span class="l-kw">const</span> client = <span class="l-kw">new</span> <span class="l-fn">Uptime</span>(<span class="l-st">'YOUR_API_KEY'</span>);
+
+<span class="l-cm">// Real-time dashboard fetch orchestration</span>
+<span class="l-kw">async function</span> <span class="l-fn">syncMonitorState</span>() {
+    <span class="l-kw">const</span> status = <span class="l-kw">await</span> client.monitors.<span class="l-fn">stats</span>();
+    console.<span class="l-fn">log</span>(<span class="l-st">`Operational Instances: ${status.up_count}`</span>);
+    console.<span class="l-fn">log</span>(<span class="l-st">`Critical Outages: ${status.down_count}`</span>);
+}
+
+<span class="l-fn">syncMonitorState</span>();</code></pre>
+                                </div>
+                            </div>
+
+                            <!-- SDK TOOLKIT -->
+                            <div class="card sdk-bento-light">
+                                <div class="card-header-flex">
+                                    <h3 class="card-title">SDK Hub</h3>
+                                    <span class="badge badge-neutral">v3.0</span>
+                                </div>
+                                <div class="bento-grid-layout">
+                                    <div class="bento-box bento-hero">
+                                        <div class="bento-box-content">
+                                            <div class="bento-box-icon"><span class="static-icon" data-icon="terminal" data-size="20"></span></div>
+                                            <div>
+                                                <h4 class="bento-box-title">Universal Wrapper</h4>
+                                                <p class="bento-box-desc">Complete REST coverage</p>
+                                            </div>
+                                        </div>
+                                        <button class="bento-copy" title="Copy CLI Command"><span class="static-icon" data-icon="copy" data-size="14"></span></button>
+                                    </div>
+                                    <div class="bento-grid-2col">
+                                        <div class="bento-box bento-small npm">
+                                            <div class="bento-lang-icon">N</div>
+                                            <span class="bento-lang-name">Node</span>
+                                        </div>
+                                        <div class="bento-box bento-small pip">
+                                            <div class="bento-lang-icon">P</div>
+                                            <span class="bento-lang-name">Python</span>
+                                        </div>
+                                        <div class="bento-box bento-small go">
+                                            <div class="bento-lang-icon">G</div>
+                                            <span class="bento-lang-name">Go</span>
+                                        </div>
+                                        <div class="bento-box bento-small gem">
+                                            <div class="bento-lang-icon">R</div>
+                                            <span class="bento-lang-name">Ruby</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="bento-box bento-link">
+                                        <div class="b-link-text"><span class="static-icon" data-icon="book" data-size="16"></span> Read full library docs</div>
+                                        <span class="static-icon" data-icon="arrow-right" data-size="16"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. WEBHOOKS WIDE SECTION -->
+                        <div class="card webhook-wide">
+                            <div class="card-header-flex">
+                                <div>
+                                    <h3 class="card-title">Live Orchestrator (Webhooks)</h3>
+                                    <p class="card-desc">Real-time event delivery across your systems.</p>
+                                </div>
+                                <button class="btn btn-outline" style="border-radius:12px; padding: 10px 16px;">
+                                    <span class="static-icon" data-icon="add" data-size="16"></span> New Endpoint
+                                </button>
+                            </div>
+                            
+                            <div class="w-wide-flex">
+                                <div class="w-wide-endpoint">
+                                    <div class="card-header-flex">
+                                        <h4 style="font-size:0.85rem; font-weight:800;">Primary Target</h4>
+                                        <div class="w-indicator pulse-green"></div>
+                                    </div>
+                                    <div class="webhook-endpoint-item" style="border:none; padding:0; background:transparent;">
+                                        <div class="w-status-box" style="background:var(--bg-subtle);">
+                                            <span class="static-icon text-blue" data-icon="slack" data-size="18"></span>
+                                        </div>
+                                        <div class="w-content">
+                                            <div class="w-label">Slack Infrastructure</div>
+                                            <div class="w-path">hooks.slack.com/services/...</div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted); display:flex; justify-content:space-between; margin-top: auto;">
+                                        <span>Total Deliveries: <b>142</b></span>
+                                        <span class="text-blue cursor-pointer">Edit</span>
+                                    </div>
+                                </div>
+
+                                <div class="w-wide-events">
+                                    <div class="w-events-header">Event Pipeline Log</div>
+                                    <div class="webhook-events-list">
+                                        <div class="w-event-row">
+                                            <span class="w-evt-tag">monitor.up</span>
+                                            <span class="w-evt-time">2m ago</span>
+                                            <span class="w-evt-status success">200 OK</span>
+                                        </div>
+                                        <div class="w-event-row">
+                                            <span class="w-evt-tag">monitor.down</span>
+                                            <span class="w-evt-time">14m ago</span>
+                                            <span class="w-evt-status success">200 OK</span>
+                                        </div>
+                                        <div class="w-event-row">
+                                            <span class="w-evt-tag">invoice.paid</span>
+                                            <span class="w-evt-time">1h ago</span>
+                                            <span class="w-evt-status success">200 OK</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('api-developer');
+        });
+    </script>
+</body>
+</html>

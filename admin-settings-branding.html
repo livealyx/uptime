@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Branding Settings – Customize the platform visual identity.">
+    <title>Branding Settings – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Branding Settings</h1>
+                            <p class="page-desc">Customize how your platform looks to your customers and team.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-nav">
+                            <a href="admin-settings-general.html" class="settings-nav-item">General</a>
+                            <a href="admin-settings-branding.html" class="settings-nav-item active">Branding</a>
+                            <a href="admin-settings-email.html" class="settings-nav-item">Email</a>
+                            <a href="admin-settings-notifications.html" class="settings-nav-item">Notifications</a>
+                            <a href="admin-settings-api.html" class="settings-nav-item">API Keys</a>
+                            <a href="admin-settings-security.html" class="settings-nav-item">Security</a>
+                        </div>
+                        <div class="settings-panel">
+                            <div class="settings-section">
+                                <div class="settings-section-title">Logos & Assets</div>
+                                <div class="settings-field">
+                                    <label>Main Logo</label>
+                                    <div class="file-upload-card">
+                                        <div class="upped-preview"><span class="nav-icon static-icon" data-icon="zap" data-size="32" style="color:var(--accent)"></span></div>
+                                        <div class="upped-info">
+                                            <span class="upped-name">logo_main.png</span>
+                                            <span class="upped-meta">SVG or PNG, Max 2MB</span>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline">Change Account Logo</button>
+                                    </div>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Favicon</label>
+                                    <button class="btn btn-sm btn-outline">Upload Favicon</button>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Color Palette</div>
+                                <div class="settings-row">
+                                    <div class="settings-field">
+                                        <label>Primary Accent Color</label>
+                                        <div class="color-picker-input">
+                                            <input type="color" value="#4f46e5">
+                                            <span>#4F46E5</span>
+                                        </div>
+                                    </div>
+                                    <div class="settings-field">
+                                        <label>Dark Mode Support</label>
+                                        <select>
+                                            <option>Auto (System Choice)</option>
+                                            <option selected>Always Light</option>
+                                            <option>Always Dark</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-actions">
+                                <button class="btn btn-primary" onclick="App.showToast('Branding updated','success')">Update Visuals</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-settings');
+            App.$$('.static-icon').forEach(el => {
+                el.innerHTML = App.icon(el.dataset.icon, el.dataset.size || 24);
+            });
+        });
+    </script>
+</body>
+</html>

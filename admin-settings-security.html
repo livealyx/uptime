@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Security Settings – Configure 2FA, session management, and access controls.">
+    <title>Security Settings – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Security & Privacy</h1>
+                            <p class="page-desc">Manage authentication methods and active administrative sessions.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-nav">
+                            <a href="admin-settings-general.html" class="settings-nav-item">General</a>
+                            <a href="admin-settings-branding.html" class="settings-nav-item">Branding</a>
+                            <a href="admin-settings-email.html" class="settings-nav-item">Email</a>
+                            <a href="admin-settings-notifications.html" class="settings-nav-item">Notifications</a>
+                            <a href="admin-settings-api.html" class="settings-nav-item">API Keys</a>
+                            <a href="admin-settings-security.html" class="settings-nav-item active">Security</a>
+                        </div>
+                        <div class="settings-panel">
+                            <div class="settings-section">
+                                <div class="settings-section-title">Two-Factor Authentication</div>
+                                <div class="security-card">
+                                    <div class="security-card-icon"><span class="static-icon" data-icon="shield-tick" data-size="24"></span></div>
+                                    <div class="security-card-content">
+                                        <div class="security-card-title">Authenticator App</div>
+                                        <div class="security-card-desc">Use an app like Google Authenticator to generate verification codes.</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-primary">Enable 2FA</button>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Session Management</div>
+                                <div class="session-item">
+                                    <div class="session-info">
+                                        <div class="session-device">Chrome on Windows (Current)</div>
+                                        <div class="session-meta">IP: 192.168.1.1 • Last active 1 minute ago</div>
+                                    </div>
+                                    <button class="btn btn-ghost" disabled>Active</button>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Danger Zone</div>
+                                <div class="settings-field">
+                                    <label>Reset Platform Data</label>
+                                    <p class="settings-info-text danger">This will permanently delete all monitor history and logs. This action cannot be undone.</p>
+                                    <button class="btn btn-danger">Flush All Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-settings');
+            App.$$('.static-icon').forEach(el => {
+                el.innerHTML = App.icon(el.dataset.icon, el.dataset.size || 24);
+            });
+        });
+    </script>
+</body>
+</html>

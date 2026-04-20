@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Debug Logs – Deep technical logs, raw HTTP response headers, and downtime reasons.">
+    <title>Debug Logs – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Debug Logs</h1>
+                            <p class="page-desc">Raw technical data from recent monitoring checks and incident events.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-outline">${App.icon('search', 16)} Filter Logs</button>
+                            <button class="btn btn-primary">Live Tail</button>
+                        </div>
+                    </div>
+
+                    <div class="log-console card">
+                        <div class="log-console-header">
+                            <div class="log-tabs">
+                                <button class="log-tab active">All Events</button>
+                                <button class="log-tab">Errors (5xx/4xx)</button>
+                                <button class="log-tab">SSL Handshakes</button>
+                            </div>
+                        </div>
+                        <div class="log-body">
+                            <table class="data-table log-table">
+                                <thead><tr><th>Timestamp</th><th>Monitor</th><th>Event</th><th>Status</th><th>Response</th></tr></thead>
+                                <tbody>
+                                    <tr class="log-row info">
+                                        <td>15:02:44</td>
+                                        <td>API Gateway</td>
+                                        <td>HTTP Check (Global)</td>
+                                        <td><span class="badge badge-success">200 OK</span></td>
+                                        <td>142ms</td>
+                                    </tr>
+                                    <tr class="log-row error">
+                                        <td>15:00:12</td>
+                                        <td>Main Web Portal</td>
+                                        <td>Connection Timeout</td>
+                                        <td><span class="badge badge-danger">504 Gateway</span></td>
+                                        <td>ERROR: Timed out after 5000ms</td>
+                                    </tr>
+                                    <tr class="log-row warn">
+                                        <td>14:58:30</td>
+                                        <td>Node-US-East</td>
+                                        <td>SSL Expiry Warning</td>
+                                        <td><span class="badge badge-warning">Expires in 12d</span></td>
+                                        <td>Cert: DigiCert TLS RSA</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card log-details-panel">
+                        <div class="card-header"><h3 class="card-title">Event Payload Preview</h3></div>
+                        <div class="code-block">
+<pre><code>{
+  "timestamp": "2026-04-19T15:00:12Z",
+  "monitor_id": "mon_98321",
+  "region": "us-east-1",
+  "response_headers": {
+    "server": "nginx",
+    "content-type": "text/html",
+    "x-cache": "MISS"
+  },
+  "error": "upstream_timeout_occurred"
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('logs');
+        });
+    </script>
+</body>
+</html>

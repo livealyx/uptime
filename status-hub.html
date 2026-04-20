@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Status Hub – Manage multiple white-label status pages for your clients.">
+    <title>Status Hub – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Public Status Hub</h1>
+                            <p class="page-desc">Centralized management for all Multi-Brand and White-Label status portals.</p>
+                        </div>
+                        <button class="btn btn-primary">${App.icon('add', 16)} Create Hub</button>
+                    </div>
+
+                    <div class="hub-grid">
+                        <div class="card hub-card">
+                            <div class="hub-preview" style="background: linear-gradient(135deg, #6366f1, #a855f7)">
+                                <div class="hub-overlay">
+                                    <div class="hub-logo">AD</div>
+                                    <div class="hub-title">Advet Buildwell</div>
+                                </div>
+                            </div>
+                            <div class="hub-content">
+                                <div class="hub-meta">
+                                    <h3 class="hub-name">Real Estate Portal</h3>
+                                    <span class="badge badge-success">Online</span>
+                                </div>
+                                <div class="hub-stats">
+                                    <div class="hub-stat"><strong>status.advet.in</strong><span>Domain</span></div>
+                                    <div class="hub-stat"><strong>12</strong><span>Monitors</span></div>
+                                </div>
+                                <div class="hub-actions">
+                                    <button class="btn btn-sm btn-outline">View Portal</button>
+                                    <button class="btn btn-sm btn-primary">Edit Brand</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card hub-card">
+                            <div class="hub-preview" style="background: linear-gradient(135deg, #10b981, #3b82f6)">
+                                <div class="hub-overlay">
+                                    <div class="hub-logo">CM</div>
+                                    <div class="hub-title">Creative ALT Media</div>
+                                </div>
+                            </div>
+                            <div class="hub-content">
+                                <div class="hub-meta">
+                                    <h3 class="hub-name">Client Dashboard</h3>
+                                    <span class="badge badge-success">Online</span>
+                                </div>
+                                <div class="hub-stats">
+                                    <div class="hub-stat"><strong>status.creativealt.com</strong><span>Domain</span></div>
+                                    <div class="hub-stat"><strong>5</strong><span>Monitors</span></div>
+                                </div>
+                                <div class="hub-actions">
+                                    <button class="btn btn-sm btn-outline">View Portal</button>
+                                    <button class="btn btn-sm btn-primary">Edit Brand</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card add-hub-card" onclick="App.showToast('Select template...','info')">
+                            <div class="add-hub-icon">${App.icon('add', 32)}</div>
+                            <div class="add-hub-text">Add New Brand Hub</div>
+                        </div>
+                    </div>
+
+                    <div class="card brand-settings">
+                        <div class="card-header"><h3 class="card-title">Shared Global Assets</h3></div>
+                        <p class="settings-info-text">Configure logos and custom CSS used across all status pages by default.</p>
+                        <div class="brand-assets">
+                            <div class="asset-item">
+                                <span class="asset-label">Status Favicon</span>
+                                <div class="asset-upload">Upload .ico</div>
+                            </div>
+                            <div class="asset-item">
+                                <span class="asset-label">Global CSS Override</span>
+                                <button class="btn btn-sm btn-outline">Open Editor</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('status-hub');
+        });
+    </script>
+</body>
+</html>

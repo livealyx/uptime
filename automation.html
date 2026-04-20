@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alert Automation – Create intelligent escalation workflows and automated incident response.">
+    <title>Alert Automation – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Alert Automation</h1>
+                            <p class="page-desc">Design smart escalation paths and conditional notification workflows.</p>
+                        </div>
+                        <button class="btn btn-primary">${App.icon('add', 16)} New Workflow</button>
+                    </div>
+
+                    <div class="workflow-stack">
+                        <div class="card workflow-card">
+                            <div class="workflow-status"><span class="pulse-dot"></span> Active</div>
+                            <div class="workflow-main">
+                                <div class="workflow-icon bg-blue">${App.icon('automation', 20)}</div>
+                                <div class="workflow-info">
+                                    <h3 class="workflow-name">Critical Escalation Path</h3>
+                                    <p class="workflow-summary">If downtime > 2 min → Slack then SMS then Call.</p>
+                                </div>
+                                <div class="workflow-steps">
+                                    <div class="workflow-step-bullet">Slack</div>
+                                    <div class="workflow-step-arrow">→</div>
+                                    <div class="workflow-step-bullet">SMS</div>
+                                    <div class="workflow-step-arrow">→</div>
+                                    <div class="workflow-step-bullet bg-red">Call</div>
+                                </div>
+                                <div class="workflow-actions">
+                                    <button class="btn btn-icon-sm">${App.icon('settings', 16)}</button>
+                                    <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card workflow-card">
+                            <div class="workflow-status"><span class="pulse-dot"></span> Active</div>
+                            <div class="workflow-main">
+                                <div class="workflow-icon bg-purple">${App.icon('clock', 20)}</div>
+                                <div class="workflow-info">
+                                    <h3 class="workflow-name">Weekend Maintenance</h3>
+                                    <p class="workflow-summary">Suppress all alerts between Fri 22:00 and Sun 06:00.</p>
+                                </div>
+                                <div class="workflow-steps">
+                                    <div class="workflow-step-bullet">Quiet Hours</div>
+                                </div>
+                                <div class="workflow-actions">
+                                    <button class="btn btn-icon-sm">${App.icon('settings', 16)}</button>
+                                    <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card builder-preview">
+                        <div class="card-header"><h3 class="card-title">Automation Logic Template</h3></div>
+                        <div class="builder-visual">
+                            <div class="builder-node block">IF <strong>Incident Duration</strong> > <strong>5 minutes</strong></div>
+                            <div class="builder-line"></div>
+                            <div class="builder-node action">THEN <strong>Escalation Level 2</strong> (Phone Call)</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('automation');
+        });
+    </script>
+</body>
+</html>

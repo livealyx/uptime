@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Email Settings – Configure SMTP and outbound delivery options.">
+    <title>Email Settings – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Email Settings</h1>
+                            <p class="page-desc">Manage your email delivery providers and domain verification.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-nav">
+                            <a href="admin-settings-general.html" class="settings-nav-item">General</a>
+                            <a href="admin-settings-branding.html" class="settings-nav-item">Branding</a>
+                            <a href="admin-settings-email.html" class="settings-nav-item active">Email</a>
+                            <a href="admin-settings-notifications.html" class="settings-nav-item">Notifications</a>
+                            <a href="admin-settings-api.html" class="settings-nav-item">API Keys</a>
+                            <a href="admin-settings-security.html" class="settings-nav-item">Security</a>
+                        </div>
+                        <div class="settings-panel">
+                            <div class="settings-section">
+                                <div class="settings-section-title">SMTP Configuration</div>
+                                <div class="settings-row">
+                                    <div class="settings-field">
+                                        <label>SMTP Host</label>
+                                        <input type="text" value="smtp.postmarkapp.com">
+                                    </div>
+                                    <div class="settings-field">
+                                        <label>SMTP Port</label>
+                                        <input type="number" value="587">
+                                    </div>
+                                </div>
+                                <div class="settings-row">
+                                    <div class="settings-field">
+                                        <label>SMTP Username</label>
+                                        <input type="text" value="api-key-here">
+                                    </div>
+                                    <div class="settings-field">
+                                        <label>SMTP Password</label>
+                                        <input type="password" value="********">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Delivery Preferences</div>
+                                <div class="settings-field">
+                                    <label>From Name</label>
+                                    <input type="text" value="Uptime Alerts">
+                                </div>
+                                <div class="settings-field">
+                                    <label>From Email Address</label>
+                                    <input type="email" value="alerts@notify.uptime.io">
+                                </div>
+                            </div>
+
+                            <div class="settings-actions">
+                                <button class="btn btn-outline" onclick="App.showToast('Test email sent to admin','info')">Send Test Email</button>
+                                <button class="btn btn-primary" onclick="App.showToast('Email settings saved','success')">Save Connection</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => App.init('admin-settings'));
+    </script>
+</body>
+</html>

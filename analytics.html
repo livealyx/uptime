@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced Performance Analytics – Deep dive into response trends, Core Web Vitals, and global performance.">
+    <title>Performance Analytics – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="analytics-redesign-wrapper">
+                        
+                        <!-- Cinematic Analytics Header -->
+                        <div class="page-header-premium">
+                            <div class="php-content">
+                                <div class="php-tag"><i class="hgi-stroke hgi-chart-line-01"></i> Performance Core</div>
+                                <h1 class="page-title">Global Analytics</h1>
+                                <p class="page-desc">High-precision latency tracking across global edges and core web metrics.</p>
+                            </div>
+                            <div class="php-actions">
+                                <div class="time-selector">
+                                    <i class="hgi-stroke hgi-calendar-03"></i>
+                                    <select>
+                                        <option>Last 30 Days</option>
+                                        <option>Last 7 Days</option>
+                                        <option>Last 24 Hours</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-premium-export">
+                                    <i class="hgi-stroke hgi-download-02"></i> Export Report
+                                </button>
+                            </div>
+                            <div class="php-bg-glow"></div>
+                        </div>
+    
+                        <!-- Key Performance Stats -->
+                        <div class="analytics-stats-grid">
+                            <div class="premium-stat-card">
+                                <div class="psc-icon blue"><i class="hgi-stroke hgi-globe-02"></i></div>
+                                <div class="psc-body">
+                                    <span class="psc-label">Avg. Global Response</span>
+                                    <div class="psc-value-row">
+                                        <span class="psc-value">280ms</span>
+                                        <span class="psc-trend up"><i class="hgi-stroke hgi-arrow-up-02"></i> 12ms</span>
+                                    </div>
+                                </div>
+                                <div class="psc-visual">
+                                    <div class="psc-mini-bar" style="height: 40%"></div>
+                                    <div class="psc-mini-bar" style="height: 60%"></div>
+                                    <div class="psc-mini-bar" style="height: 50%"></div>
+                                    <div class="psc-mini-bar active" style="height: 80%"></div>
+                                </div>
+                            </div>
+    
+                            <div class="premium-stat-card">
+                                <div class="psc-icon green"><i class="hgi-stroke hgi-zap"></i></div>
+                                <div class="psc-body">
+                                    <span class="psc-label">Largest Contentful Paint</span>
+                                    <div class="psc-value-row">
+                                        <span class="psc-value">1.4s</span>
+                                        <span class="psc-badge success">Good</span>
+                                    </div>
+                                </div>
+                                <div class="psc-indicator gradient-green"></div>
+                            </div>
+    
+                            <div class="premium-stat-card">
+                                <div class="psc-icon purple"><i class="hgi-stroke hgi-activity-01"></i></div>
+                                <div class="psc-body">
+                                    <span class="psc-label">TTFB (Edge)</span>
+                                    <div class="psc-value-row">
+                                        <span class="psc-value">42ms</span>
+                                        <span class="psc-trend success"><i class="hgi-stroke hgi-arrow-down-02"></i> 5ms</span>
+                                    </div>
+                                </div>
+                                <div class="psc-indicator gradient-purple"></div>
+                            </div>
+    
+                            <div class="premium-stat-card">
+                                <div class="psc-icon cyan"><i class="hgi-stroke hgi-shield-tick"></i></div>
+                                <div class="psc-body">
+                                    <span class="psc-label">Downtime Total</span>
+                                    <div class="psc-value-row">
+                                        <span class="psc-value">0m</span>
+                                        <span class="psc-badge success">100% Uptime</span>
+                                    </div>
+                                </div>
+                                <div class="psc-indicator gradient-cyan"></div>
+                            </div>
+                        </div>
+    
+                        <!-- Main Trend Chart -->
+                        <div class="card analytics-chart-card">
+                            <div class="card-header-premium">
+                                <div class="chp-title-block">
+                                    <i class="hgi-stroke hgi-analytics-up"></i>
+                                    <h3>Response Time Trends</h3>
+                                </div>
+                                <div class="chart-legend-premium">
+                                    <span class="lp-item"><i class="lp-dot bg-accent"></i> India</span>
+                                    <span class="lp-item"><i class="lp-dot bg-green"></i> US-East</span>
+                                    <span class="lp-item"><i class="lp-dot bg-purple"></i> Europe</span>
+                                </div>
+                            </div>
+                            <div class="chart-container-premium">
+                                <canvas id="response-trend-chart" height="350"></canvas>
+                            </div>
+                        </div>
+    
+                        <!-- Lower Insights Grid -->
+                        <div class="analytics-bento-row">
+                            <!-- Core Web Vitals -->
+                            <div class="card bento-card vitals-card">
+                                <div class="card-header-premium">
+                                    <div class="chp-title-block">
+                                        <i class="hgi-stroke hgi-favourite"></i>
+                                        <h3>Core Web Vitals</h3>
+                                    </div>
+                                </div>
+                                <div class="vitals-dashboard">
+                                    <div class="vital-item">
+                                        <div class="vital-info">
+                                            <span class="v-name">LCP (Largest Contentful Paint)</span>
+                                            <span class="v-val">1.4s</span>
+                                        </div>
+                                        <div class="vital-progress-premium">
+                                            <div class="vp-fill success" style="width:90%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="vital-item">
+                                        <div class="vital-info">
+                                            <span class="v-name">FID (First Input Delay)</span>
+                                            <span class="v-val">18ms</span>
+                                        </div>
+                                        <div class="vital-progress-premium">
+                                            <div class="vp-fill success" style="width:95%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="vital-item">
+                                        <div class="vital-info">
+                                            <span class="v-name">CLS (Cumulative Layout Shift)</span>
+                                            <span class="v-val">0.12</span>
+                                        </div>
+                                        <div class="vital-progress-premium">
+                                            <div class="vp-fill warn" style="width:40%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <!-- API Performance Table -->
+                            <div class="card bento-card api-card">
+                                <div class="card-header-premium">
+                                    <div class="chp-title-block">
+                                        <i class="hgi-stroke hgi-api"></i>
+                                        <h3>API Performance</h3>
+                                    </div>
+                                </div>
+                                <div class="premium-table-wrapper">
+                                    <table class="data-table-premium">
+                                        <thead>
+                                            <tr>
+                                                <th>Endpoint</th>
+                                                <th>Latency</th>
+                                                <th style="text-align: right;">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><code class="endpoint-code">GET /api/v1/auth</code></td>
+                                                <td><span class="latency-pill">120ms</span></td>
+                                                <td style="text-align: right;"><span class="badge-status success">99.9%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code class="endpoint-code">POST /api/v1/data</code></td>
+                                                <td><span class="latency-pill">450ms</span></td>
+                                                <td style="text-align: right;"><span class="badge-status success">98.5%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><code class="endpoint-code">GET /api/v1/stats</code></td>
+                                                <td><span class="latency-pill">85ms</span></td>
+                                                <td style="text-align: right;"><span class="badge-status success">100%</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('analytics');
+            setTimeout(() => {
+                App.drawLineChart('response-trend-chart', 'Latency (ms)', 
+                    [210, 240, 220, 280, 260, 310, 290, 340, 320, 280, 420, 380], 
+                    ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                );
+            }, 100);
+        });
+    </script>
+</body>
+</html>

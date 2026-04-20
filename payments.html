@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Checkout & Payments – Manage your subscription and billing.">
+    <title>Checkout & Payments – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div><h1 class="page-title">Checkout & Payments</h1><p class="page-desc">Manage your subscription and billing</p></div>
+                    </div>
+                    <div id="payments-content"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('payments');
+            const chk = App.icon('check-circle', 16);
+
+            document.getElementById('payments-content').innerHTML = `
+                <h2 style="font-size:1.1rem;font-weight:600;margin-bottom:20px">Choose a Plan</h2>
+                <div class="payment-plans-grid">
+                    ${DATA.plans.map(p => `
+                        <div class="payment-plan-card ${p.popular ? 'popular' : ''}">
+                            <div class="plan-name">${p.name}</div>
+                            <div class="plan-price">${p.price}<span>${p.period}</span></div>
+                            <div class="plan-desc">${p.desc}</div>
+                            <ul class="plan-features">
+                                <li>${chk} ${p.monitors} monitors</li>
+                                <li>${chk} ${p.interval} check interval</li>
+                                <li>${chk} ${p.history} data retention</li>
+                                <li>${chk} ${p.statusPages} status page${p.statusPages !== 1 ? 's' : ''}</li>
+                                <li>${chk} ${p.alerts}</li>
+                            </ul>
+                            <button class="btn ${p.popular ? 'btn-primary' : 'btn-outline'} btn-full" onclick="showToast('${p.name === 'Free' ? 'Already on Free plan' : 'Upgrading to ' + p.name + '...'}','info')">${p.name === 'Free' ? 'Current Plan' : 'Upgrade'}</button>
+                        </div>`).join('')}
+                </div>
+                <div class="payment-gateways">
+                    <h2 class="payment-gateways-title">Payment Methods</h2>
+                    <div class="gateways-grid">
+                        ${DATA.paymentGateways.map((g, i) => `
+                            <div class="gateway-card ${i === 1 ? 'selected' : ''}" data-gw="${g.name}">
+                                <div class="gateway-icon">${App.icon(g.iconKey, 32)}</div>
+                                <div class="gateway-name">${g.name}</div>
+                            </div>`).join('')}
+                    </div>
+                </div>`;
+
+            App.$$('.gateway-card').forEach(card => {
+                card.onclick = () => {
+                    App.$$('.gateway-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    App.showToast(card.dataset.gw + ' selected', 'info');
+                };
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Security Monitoring – SSL tracking, DNS change detection, and malware alerts.">
+    <title>Security – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Security Monitoring</h1>
+                            <p class="page-desc">Stay protected with SSL expiry tracking, DNS drift detection, and security health checks.</p>
+                        </div>
+                        <button class="btn btn-primary">${App.icon('shield-tick', 16)} Rescan Assets</button>
+                    </div>
+
+                    <div class="grid-3col">
+                        <div class="card security-stat">
+                            <div class="sec-icon bg-green">${App.icon('shield-tick', 24)}</div>
+                            <div class="sec-val">12</div>
+                            <div class="sec-label">SSL Certificates Valid</div>
+                        </div>
+                        <div class="card security-stat">
+                            <div class="sec-icon bg-blue">${App.icon('globe', 24)}</div>
+                            <div class="sec-val">0</div>
+                            <div class="sec-label">DNS Changes Observed</div>
+                        </div>
+                        <div class="card security-stat">
+                            <div class="sec-icon bg-purple">${App.icon('sparkles', 24)}</div>
+                            <div class="sec-val">Clean</div>
+                            <div class="sec-label">Google Safebrowsing</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">SSL Health Center</h3></div>
+                        <table class="data-table">
+                            <thead><tr><th>Site</th><th>Issuer</th><th>Expiry</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <tr><td>advet.in</td><td>Let's Encrypt</td><td>88 days</td><td><span class="badge badge-success">Good</span></td></tr>
+                                <tr><td>portal.creativealt.com</td><td>DigiCert Inc</td><td>12 days</td><td><span class="badge badge-warning">Expiring Soon</span></td></tr>
+                                <tr><td>api.uptime.local</td><td>Self-Signed</td><td>Never</td><td><span class="badge badge-danger">Not Trusted</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card dns-monitor">
+                        <div class="card-header"><h3 class="card-title">DNS Record Tracking</h3></div>
+                        <p class="settings-info-text">Alerts you immediately if your A, CNAME, or MX records change unexpectedly.</p>
+                        <div class="dns-grid">
+                            <div class="dns-item">
+                                <div class="dns-icon">${App.icon('activity', 18)}</div>
+                                <div class="dns-details">
+                                    <div class="dns-name">A Record (primary)</div>
+                                    <div class="dns-val">104.21.78.201</div>
+                                </div>
+                                <span class="badge badge-success">Verified</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('security');
+        });
+    </script>
+</body>
+</html>

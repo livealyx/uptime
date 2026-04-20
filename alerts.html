@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alerts & Notifications – Configure how you receive uptime alerts.">
+    <title>Alerts & Notifications – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div><h1 class="page-title">Alerts & Notifications</h1><p class="page-desc">Configure how you receive alerts</p></div>
+                    </div>
+                    <div class="alerts-grid" id="alerts-grid"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('alerts');
+
+            document.getElementById('alerts-grid').innerHTML = DATA.alertChannels.map(ch => `
+                <div class="alert-channel-card">
+                    <div class="alert-channel-header">
+                        <div class="alert-channel-icon" style="background:${ch.bg}">
+                            ${ch.iconKey ? App.icon(ch.iconKey, 24) : ch.icon}
+                        </div>
+                        <div><div class="alert-channel-name">${ch.name}</div><div class="alert-channel-desc">${ch.desc}</div></div>
+                    </div>
+                    <div class="alert-channel-toggle">
+                        <span class="alert-channel-status">${ch.enabled ? 'Connected' : 'Not configured'}</span>
+                        <label class="toggle"><input type="checkbox" ${ch.enabled ? 'checked' : ''} data-channel="${ch.id}"><span class="toggle-slider"></span></label>
+                    </div>
+                </div>`).join('');
+
+            App.$$('.toggle input').forEach(input => {
+                input.addEventListener('change', () => {
+                    const ch = DATA.alertChannels.find(c => c.id === parseInt(input.dataset.channel));
+                    if (ch) { ch.enabled = input.checked; App.showToast(ch.name + (input.checked ? ' enabled' : ' disabled'), input.checked ? 'success' : 'warning'); }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

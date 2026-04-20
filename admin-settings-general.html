@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="General Settings – Configure core platform preferences.">
+    <title>General Settings – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">General Settings</h1>
+                            <p class="page-desc">Configure your core platform preferences and defaults.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <div class="settings-nav">
+                            <a href="admin-settings-general.html" class="settings-nav-item active">General</a>
+                            <a href="admin-settings-branding.html" class="settings-nav-item">Branding</a>
+                            <a href="admin-settings-email.html" class="settings-nav-item">Email</a>
+                            <a href="admin-settings-notifications.html" class="settings-nav-item">Notifications</a>
+                            <a href="admin-settings-api.html" class="settings-nav-item">API Keys</a>
+                            <a href="admin-settings-security.html" class="settings-nav-item">Security</a>
+                        </div>
+                        <div class="settings-panel">
+                            <div class="settings-section">
+                                <div class="settings-section-title">Platform Information</div>
+                                <div class="settings-field">
+                                    <label>Platform Name</label>
+                                    <input type="text" value="Uptime Platform">
+                                </div>
+                                <div class="settings-field">
+                                    <label>Support Email</label>
+                                    <input type="email" value="support@uptime.io">
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Regional Settings</div>
+                                <div class="settings-row">
+                                    <div class="settings-field">
+                                        <label>Default Timezone</label>
+                                        <select>
+                                            <option>UTC (Coordinated Universal Time)</option>
+                                            <option selected>US/Eastern</option>
+                                            <option>Europe/London</option>
+                                            <option>Asia/Tokyo</option>
+                                        </select>
+                                    </div>
+                                    <div class="settings-field">
+                                        <label>Date Format</label>
+                                        <select>
+                                            <option>MM/DD/YYYY</option>
+                                            <option selected>DD/MM/YYYY</option>
+                                            <option>YYYY-MM-DD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-section">
+                                <div class="settings-section-title">Monitoring Defaults</div>
+                                <div class="settings-field">
+                                    <label>Standard Check Interval</label>
+                                    <select>
+                                        <option>30 seconds</option>
+                                        <option selected>1 minute</option>
+                                        <option>5 minutes</option>
+                                        <option>15 minutes</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="settings-actions">
+                                <button class="btn btn-primary" onclick="App.showToast('General settings saved','success')">Save Changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => App.init('admin-settings'));
+    </script>
+</body>
+</html>

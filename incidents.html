@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Incidents – Downtime events and performance issue logs.">
+    <title>Incidents – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div><h1 class="page-title">Incidents</h1><p class="page-desc">Downtime events and performance issues</p></div>
+                        <button class="btn btn-primary" id="incident-add-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4V20M20 12H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Report Incident</button>
+                    </div>
+                    <div class="filter-bar">
+                        <div class="filter-tabs" id="incident-filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="ongoing">Ongoing</button>
+                            <button class="filter-tab" data-filter="investigating">Investigating</button>
+                            <button class="filter-tab" data-filter="resolved">Resolved</button>
+                        </div>
+                    </div>
+                    <div class="incidents-list" id="incidents-list"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('incidents');
+
+            function renderIncidents(filter) {
+                const filtered = filter === 'all' ? DATA.incidents : DATA.incidents.filter(i => i.status === filter);
+                document.getElementById('incidents-list').innerHTML = filtered.map(inc => `
+                    <div class="incident-card">
+                        <div class="incident-severity ${inc.severity}"></div>
+                        <div class="incident-content">
+                            <div class="incident-title">${inc.title}</div>
+                            <div class="incident-meta">
+                                <span class="incident-meta-item">${App.icon('computer', 14)} ${inc.monitor}</span>
+                                <span class="incident-meta-item">${App.icon('clock', 14)} ${inc.duration}</span>
+                                <span class="incident-meta-item">${App.icon('calendar', 14)} ${inc.startedAt}</span>
+                            </div>
+                        </div>
+                        <span class="incident-status ${inc.status}">${App.capitalize(inc.status)}</span>
+                    </div>`).join('');
+            }
+
+            renderIncidents('all');
+            App.bindFilterTabs('incident-filter-tabs', renderIncidents);
+
+            document.getElementById('incident-add-btn').onclick = () => {
+                App.openModal('Report Incident', `
+                    <div class="form-group" style="margin-bottom:16px"><label>Title</label><input type="text" placeholder="Brief incident description"></div>
+                    <div class="form-group" style="margin-bottom:16px"><label>Affected Monitor</label><select>${DATA.monitors.map(m => `<option>${m.name}</option>`).join('')}</select></div>
+                    <div class="form-group" style="margin-bottom:16px"><label>Severity</label><select><option>Minor</option><option>Major</option><option>Critical</option></select></div>
+                    <div class="form-group"><label>Description</label><textarea rows="3" placeholder="Describe the incident..."></textarea></div>
+                `, () => App.showToast('Incident reported!', 'success'), 'Report');
+            };
+        });
+    </script>
+</body>
+</html>

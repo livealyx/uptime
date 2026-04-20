@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plans Management – Create and manage subscription plans.">
+    <title>Plans Management – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div><h1 class="page-title">Plans Management</h1><p class="page-desc">Create and manage subscription plans</p></div>
+                        <button class="btn btn-primary" onclick="showToast('Create plan modal','info')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4V20M20 12H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> New Plan</button>
+                    </div>
+                    <div class="plans-grid" id="admin-plans-grid"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-plans');
+            document.getElementById('admin-plans-grid').innerHTML = DATA.plans.map(p => `
+                <div class="admin-plan-card">
+                    <div class="admin-plan-header">
+                        <div class="admin-plan-name-wrap">
+                            <div class="admin-plan-name">${p.name}</div>
+                            ${p.popular ? '<span class="badge badge-purple">Popular</span>' : ''}
+                        </div>
+                        <div class="admin-sub-metric">${App.icon('user-group', 14)} <strong>${p.subscribers}</strong> active subscribers</div>
+                        <div class="admin-plan-price">${p.price}<span>${p.period}</span></div>
+                    </div>
+                    <div class="admin-plan-details">
+                        <div class="admin-plan-detail">${App.icon('activity', 16)} <span>Monitors</span> <span>${p.monitors}</span></div>
+                        <div class="admin-plan-detail">${App.icon('zap', 16)} <span>Interval</span> <span>${p.interval}</span></div>
+                        <div class="admin-plan-detail">${App.icon('book', 16)} <span>History</span> <span>${p.history}</span></div>
+                        <div class="admin-plan-detail">${App.icon('computer', 16)} <span>Status Pages</span> <span>${p.statusPages}</span></div>
+                    </div>
+                    <div class="admin-plan-actions">
+                        <button class="btn btn-sm btn-outline" onclick="App.showToast('Edit plan','info')">Edit</button>
+                        <button class="btn btn-sm btn-outline" onclick="App.showToast('Suspend plan','warning')">Suspend</button>
+                        <button class="btn btn-sm btn-danger" onclick="App.showToast('Delete plan','error')">Delete Plan</button>
+                    </div>
+                </div>`).join('');
+        });
+    </script>
+</body>
+</html>

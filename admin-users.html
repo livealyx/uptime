@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Management – View and manage all platform users.">
+    <title>User Management – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div><h1 class="page-title">User Management</h1><p class="page-desc">View and manage all platform users</p></div>
+                    </div>
+                    <div class="filter-bar">
+                        <div class="filter-tabs" id="user-filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="active">Active</button>
+                            <button class="filter-tab" data-filter="suspended">Suspended</button>
+                        </div>
+                        <div class="filter-search">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17.5 17.5L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            <input type="text" id="user-search" placeholder="Search users...">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="data-table" id="admin-users-table">
+                                <thead><tr><th>User</th><th>Email</th><th>Plan</th><th>Monitors</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-users');
+
+            function renderUsers(filter) {
+                const filtered = filter === 'all' ? DATA.users : DATA.users.filter(u => u.status === filter);
+                document.querySelector('#admin-users-table tbody').innerHTML = filtered.map(u => `
+                    <tr>
+                        <td><div class="table-user"><div class="table-avatar" style="background:${App.colorFromName(u.name)}">${App.initials(u.name)}</div>${u.name}</div></td>
+                        <td>${u.email}</td>
+                        <td><span class="badge badge-info">${u.plan}</span></td>
+                        <td>${u.monitors}</td>
+                        <td>${u.joined}</td>
+                        <td><span class="badge ${u.status === 'active' ? 'badge-success' : 'badge-danger'}">${App.capitalize(u.status)}</span></td>
+                        <td><div class="table-actions">
+                            <button class="table-action-btn" onclick="showToast('Edit user','info')">Edit</button>
+                            <button class="table-action-btn" onclick="showToast('User ${u.status === 'active' ? 'suspended' : 'activated'}','warning')">${u.status === 'active' ? 'Suspend' : 'Activate'}</button>
+                            <button class="table-action-btn danger" onclick="showToast('User deleted','error')">Delete</button>
+                        </div></td>
+                    </tr>`).join('');
+            }
+
+            renderUsers('all');
+            App.bindFilterTabs('user-filter-tabs', renderUsers);
+
+            document.getElementById('user-search').oninput = function () {
+                const q = this.value.toLowerCase();
+                App.$$('#admin-users-table tbody tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+            };
+        });
+    </script>
+</body>
+</html>

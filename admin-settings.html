@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Settings – Configure platform preferences and system-wide options.">
+    <title>Settings – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div><h1 class="page-title">Settings</h1><p class="page-desc">Configure platform preferences</p></div>
+                    </div>
+                    <div class="settings-grid">
+                        <div class="settings-nav" id="settings-nav">
+                            <button class="settings-nav-item active" data-tab="general">General</button>
+                            <button class="settings-nav-item" data-tab="branding">Branding</button>
+                            <button class="settings-nav-item" data-tab="email">Email</button>
+                            <button class="settings-nav-item" data-tab="notifications">Notifications</button>
+                            <button class="settings-nav-item" data-tab="api">API Keys</button>
+                            <button class="settings-nav-item" data-tab="security">Security</button>
+                        </div>
+                        <div class="settings-panel" id="settings-panel">
+                            <div class="settings-section">
+                                <div class="settings-section-title">General Settings</div>
+                                <div class="settings-field"><label>Platform Name</label><input type="text" value="Uptime Monitoring"></div>
+                                <div class="settings-row">
+                                    <div class="settings-field"><label>Default Language</label><select><option>English</option><option>Spanish</option><option>French</option><option>German</option></select></div>
+                                    <div class="settings-field"><label>Timezone</label><select><option>UTC</option><option>US/Eastern</option><option>US/Pacific</option><option>Europe/London</option><option>Asia/Kolkata</option></select></div>
+                                </div>
+                                <div class="settings-field"><label>Default Check Interval</label><select><option>30 seconds</option><option selected>1 minute</option><option>2 minutes</option><option>5 minutes</option></select></div>
+                            </div>
+                            <div class="settings-section">
+                                <div class="settings-section-title">Email Configuration</div>
+                                <div class="settings-row">
+                                    <div class="settings-field"><label>SMTP Host</label><input type="text" value="smtp.acme.com"></div>
+                                    <div class="settings-field"><label>SMTP Port</label><input type="number" value="587"></div>
+                                </div>
+                                <div class="settings-row">
+                                    <div class="settings-field"><label>From Email</label><input type="email" value="noreply@acme.com"></div>
+                                    <div class="settings-field"><label>From Name</label><input type="text" value="Uptime Monitor"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="showToast('Settings saved!','success')">Save Changes</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-settings');
+            App.$$('.settings-nav-item').forEach(item => {
+                item.onclick = () => {
+                    App.$$('.settings-nav-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    App.showToast(item.textContent + ' settings loaded', 'info');
+                };
+            });
+        });
+    </script>
+</body>
+</html>

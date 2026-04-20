@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard – Monitor your website uptime at a glance.">
+    <title>Dashboard – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Dashboard</h1>
+                            <p class="page-desc">Complete overview of your monitoring activity</p>
+                        </div>
+                        <a href="monitors.html" class="btn btn-primary"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4V20M20 12H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Add Monitor</a>
+                    </div>
+                    <div class="stats-grid" id="dashboard-stats"></div>
+                    <div class="grid-2col">
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Response Time (24h)</h3>
+                                <div class="card-actions"><select class="select-sm"><option>24 Hours</option><option>7 Days</option><option>30 Days</option></select></div>
+                            </div>
+                            <div class="chart-wrapper"><canvas id="response-chart" height="220"></canvas></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Uptime Distribution</h3></div>
+                            <div class="card-body">
+                                <div class="uptime-dist-container">
+                                    <div class="chart-wrapper donut-wrapper"><canvas id="uptime-donut"></canvas></div>
+                                    <div class="uptime-legend" id="uptime-legend"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Recent Incidents</h3><a href="incidents.html" class="card-link">View all</a></div>
+                            <div class="card-body" id="dash-recent-incidents"></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Monitor Status</h3><a href="monitors.html" class="card-link">View all</a></div>
+                            <div class="card-body" id="dash-monitor-list"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('dashboard');
+
+            const M = DATA.monitors;
+            const upCount = M.filter(m => m.status === 'up').length;
+            const downCount = M.filter(m => m.status === 'down').length;
+            const avgResp = Math.round(M.filter(m => m.responseTime > 0).reduce((a, m) => a + m.responseTime, 0) / M.filter(m => m.responseTime > 0).length);
+            const avgUp = (M.reduce((a, m) => a + m.uptime, 0) / M.length).toFixed(2);
+
+            document.getElementById('dashboard-stats').innerHTML =
+                App.statCard('Monitors Up', upCount, 'green', App.svgIcon('check-circle'), '+2 this week', 'up', 'stat-green') +
+                App.statCard('Monitors Down', downCount, 'red', App.svgIcon('alert-triangle'), '', '', 'stat-red') +
+                App.statCard('Avg Response', avgResp + 'ms', 'blue', App.svgIcon('zap'), '-12ms', 'up', 'stat-blue') +
+                App.statCard('Avg Uptime', avgUp + '%', 'purple', App.svgIcon('trending-up'), '+0.05%', 'up', 'stat-purple');
+
+            document.getElementById('dash-recent-incidents').innerHTML = DATA.incidents.slice(0, 4).map(inc => `
+                <div class="dash-incident-item">
+                    <div class="dash-incident-dot" style="background:${inc.severity === 'critical' ? 'var(--red)' : inc.severity === 'major' ? 'var(--yellow)' : 'var(--blue)'}"></div>
+                    <div class="dash-incident-info">
+                        <div class="dash-incident-name">${inc.title}</div>
+                        <div class="dash-incident-time">${inc.startedAt} · ${inc.duration}</div>
+                    </div>
+                    <span class="incident-status ${inc.status}">${App.capitalize(inc.status)}</span>
+                </div>`).join('');
+
+            const sorted = [...M].sort((a, b) => (a.status === 'down' ? -1 : 1) - (b.status === 'down' ? -1 : 1));
+            document.getElementById('dash-monitor-list').innerHTML = sorted.slice(0, 6).map(m => `
+                <a href="monitor-detail.html?id=${m.id}" class="dash-monitor-item" style="cursor:pointer;text-decoration:none;color:inherit">
+                    <div class="status-dot ${m.status}"></div>
+                    <div class="dash-monitor-info">
+                        <div class="dash-monitor-name">${m.name}</div>
+                        <div class="dash-monitor-url">${m.url}</div>
+                    </div>
+                    <div class="dash-monitor-uptime" style="color:${m.status === 'up' ? 'var(--green)' : m.status === 'down' ? 'var(--red)' : 'var(--yellow)'}">${m.uptime}%</div>
+                </a>`).join('');
+
+            const legendData = [
+                { label: 'Up', count: upCount, color: 'var(--green)', icon: 'check-circle' },
+                { label: 'Down', count: downCount, color: 'var(--red)', icon: 'alert-triangle' },
+                { label: 'Paused', count: DATA.monitors.length - upCount - downCount, color: 'var(--yellow)', icon: 'activity' }
+            ];
+            document.getElementById('uptime-legend').innerHTML = legendData.map(l => `
+                <div class="legend-item">
+                    <div class="legend-info">
+                        <div class="legend-dot" style="background:${l.color}"></div>
+                        <span class="legend-label">${l.label}</span>
+                    </div>
+                    <div class="legend-value">${l.count}</div>
+                </div>`).join('') + `<div class="legend-total">Total: ${DATA.monitors.length}</div>`;
+
+            setTimeout(() => {
+                App.drawResponseChart('response-chart');
+                App.drawUptimeDonut('uptime-donut');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

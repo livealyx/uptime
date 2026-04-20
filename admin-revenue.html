@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Revenue Analytics – SaaS business metrics, MRR, churn rate, and subscription growth tracking.">
+    <title>Revenue Analytics – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Revenue Analytics</h1>
+                            <p class="page-desc">Core financial metrics and SaaS business health overview.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-outline">Financial Reports</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="card stat-card">
+                            <div class="stat-label">Monthly Recurring Revenue</div>
+                            <div class="stat-value">$12,450.00</div>
+                            <div class="stat-meta success">${App.icon('trending-up', 12)} +14% vs last mo</div>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-label">Active Subscriptions</div>
+                            <div class="stat-value">342</div>
+                            <div class="stat-meta success">24 new this week</div>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-label">Churn Rate</div>
+                            <div class="stat-value">1.4%</div>
+                            <div class="stat-meta success">Relatively Low</div>
+                        </div>
+                        <div class="card stat-card">
+                            <div class="stat-label">Avg. Revenue Per User</div>
+                            <div class="stat-value">$36.40</div>
+                            <div class="stat-meta info">Pro plan dominates</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">MRR Growth Trend</h3></div>
+                        <div class="chart-wrapper" style="height:300px">
+                            <canvas id="revenue-growth-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="grid-2col">
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Revenue by Plan</h3></div>
+                            <div class="revenue-split">
+                                <div class="split-item">
+                                    <div class="split-info"><span>Prime Pro</span><span>$8,200</span></div>
+                                    <div class="split-bar"><div class="split-fill" style="width:65%;background:var(--accent)"></div></div>
+                                </div>
+                                <div class="split-item">
+                                    <div class="split-info"><span>Scale Agency</span><span>$3,400</span></div>
+                                    <div class="split-bar"><div class="split-fill" style="width:25%;background:var(--purple)"></div></div>
+                                </div>
+                                <div class="split-item">
+                                    <div class="split-info"><span>Basic</span><span>$850</span></div>
+                                    <div class="split-bar"><div class="split-fill" style="width:10%;background:var(--green)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Top Paying Clients</h3></div>
+                            <table class="data-table">
+                                <thead><tr><th>Client</th><th>Plan</th><th>MRR</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Advet Buildwell</td><td>Agency</td><td>$499.00</td></tr>
+                                    <tr><td>CloudNexus Inc</td><td>Scale</td><td>$299.00</td></tr>
+                                    <tr><td>Pixel Studio</td><td>Pro</td><td>$89.00</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-revenue');
+            setTimeout(() => {
+                App.drawLineChart('revenue-growth-chart', 'MRR ($)', [4200, 5100, 6200, 6800, 7500, 8900, 9400, 10200, 11000, 11800, 12450], ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov']);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

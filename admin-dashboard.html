@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Dashboard – Platform activity and system performance overview.">
+    <title>Admin Dashboard – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div><h1 class="page-title">Admin Dashboard</h1><p class="page-desc">Platform activity and system performance</p></div>
+                    </div>
+                    <div class="stats-grid" id="admin-stats"></div>
+                    <div class="grid-2col">
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Revenue (30 days)</h3></div>
+                            <div class="chart-wrapper"><canvas id="admin-revenue-chart" height="220"></canvas></div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">User Growth</h3></div>
+                            <div class="chart-wrapper"><canvas id="admin-users-chart" height="220"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Recent Registrations</h3></div>
+                        <div class="table-responsive">
+                            <table class="data-table" id="admin-recent-users">
+                                <thead><tr><th>User</th><th>Email</th><th>Plan</th><th>Joined</th><th>Status</th></tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('admin-dashboard');
+
+            const rev = DATA.payments.filter(p => p.status === 'completed').reduce((a, p) => a + parseFloat(p.amount.replace('$', '')), 0);
+            document.getElementById('admin-stats').innerHTML =
+                App.statCard('Total Users', DATA.users.length, 'blue', App.svgIcon('users'), '+3 this month', 'up', 'stat-blue') +
+                App.statCard('Active Monitors', DATA.monitors.length, 'green', App.svgIcon('activity'), '+5 this week', 'up', 'stat-green') +
+                App.statCard('Revenue (MTD)', '$' + rev.toFixed(2), 'purple', App.svgIcon('dollar'), '+18.2%', 'up', 'stat-purple') +
+                App.statCard('Active Incidents', DATA.incidents.filter(i => i.status !== 'resolved').length, 'red', App.svgIcon('alert'), '', '', 'stat-red');
+
+            document.querySelector('#admin-recent-users tbody').innerHTML = DATA.users.slice(0, 5).map(u => `
+                <tr>
+                    <td><div class="table-user"><div class="table-avatar" style="background:${App.colorFromName(u.name)}">${App.initials(u.name)}</div>${u.name}</div></td>
+                    <td>${u.email}</td>
+                    <td><span class="badge badge-info">${u.plan}</span></td>
+                    <td>${u.joined}</td>
+                    <td><span class="badge ${u.status === 'active' ? 'badge-success' : 'badge-danger'}">${App.capitalize(u.status)}</span></td>
+                </tr>`).join('');
+
+            setTimeout(() => {
+                App.drawBarChart('admin-revenue-chart', 'Revenue ($)', [820,1240,980,1450,1120,1680,1340,1890,1560,2100,1780,1950], ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']);
+                App.drawLineChart('admin-users-chart', 'Users', [12,18,28,35,48,62,78,95,112,134,155,180], ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

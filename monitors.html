@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Monitors – Track website uptime, performance, and SSL status.">
+    <title>Monitors – Uptime</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app-shell" class="app-shell">
+        <aside id="sidebar" class="sidebar"></aside>
+        <main id="main-content" class="main-content">
+            <header id="topbar" class="topbar"></header>
+            <div class="page-container">
+                <section class="page active">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Monitors</h1>
+                            <p class="page-desc">Track uptime, performance and SSL status</p>
+                        </div>
+                        <button class="btn btn-primary" id="monitors-add-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4V20M20 12H4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> New Monitor</button>
+                    </div>
+                    <div class="filter-bar">
+                        <div class="filter-tabs" id="monitor-filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="up">Up</button>
+                            <button class="filter-tab" data-filter="down">Down</button>
+                            <button class="filter-tab" data-filter="paused">Paused</button>
+                        </div>
+                        <div class="filter-search">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17.5 17.5L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C15.9706 20 20 15.9706 20 11Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            <input type="text" id="monitor-search" placeholder="Search monitors...">
+                        </div>
+                    </div>
+                    <div class="monitors-grid" id="monitors-grid"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"><div class="modal" id="modal-box"><div class="modal-header"><h2 class="modal-title" id="modal-title">Modal</h2><button class="modal-close" id="modal-close">&times;</button></div><div class="modal-body" id="modal-body"></div><div class="modal-footer" id="modal-footer"><button class="btn btn-ghost" id="modal-cancel">Cancel</button><button class="btn btn-primary" id="modal-confirm">Confirm</button></div></div></div>
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/data.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            App.init('monitors');
+
+            function renderMonitors(filter) {
+                const filtered = filter === 'all' ? DATA.monitors : DATA.monitors.filter(m => m.status === filter);
+                document.getElementById('monitors-grid').innerHTML = filtered.map(m => `
+                    <a href="monitor-detail.html?id=${m.id}" class="monitor-card" style="text-decoration:none;color:inherit">
+                        <div class="monitor-card-header">
+                            <div class="monitor-card-info">
+                                <div class="monitor-card-name"><span class="status-dot ${m.status}"></span>${m.name}</div>
+                                <div class="monitor-card-url">${m.url}</div>
+                            </div>
+                        </div>
+                        <div class="monitor-card-stats">
+                            <div class="monitor-stat"><div class="monitor-stat-value" style="color:${m.status === 'up' ? 'var(--green)' : m.status === 'down' ? 'var(--red)' : 'var(--yellow)'}">${m.uptime}%</div><div class="monitor-stat-label">Uptime</div></div>
+                            <div class="monitor-stat"><div class="monitor-stat-value">${m.responseTime > 0 ? m.responseTime + 'ms' : '—'}</div><div class="monitor-stat-label">Response</div></div>
+                            <div class="monitor-stat"><div class="monitor-stat-value" style="color:${m.sslValid ? 'var(--green)' : 'var(--red)'}">${m.sslValid ? 'Valid' : 'Expired'}</div><div class="monitor-stat-label">SSL</div></div>
+                        </div>
+                        <div class="uptime-bar">${App.uptimeBars()}</div>
+                    </a>`).join('');
+            }
+
+            renderMonitors('all');
+            App.bindFilterTabs('monitor-filter-tabs', renderMonitors);
+
+            document.getElementById('monitor-search').oninput = function () {
+                const q = this.value.toLowerCase();
+                App.$$('.monitor-card').forEach(card => {
+                    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+                });
+            };
+
+            document.getElementById('monitors-add-btn').onclick = () => {
+                App.openModal('Add New Monitor', `
+                    <div class="form-group" style="margin-bottom:16px"><label>Monitor Name</label><input type="text" id="nm-name" placeholder="My Website"></div>
+                    <div class="form-group" style="margin-bottom:16px"><label>URL</label><input type="url" id="nm-url" placeholder="https://example.com"></div>
+                    <div class="form-group" style="margin-bottom:16px"><label>Check Interval</label><select><option>30 seconds</option><option selected>1 minute</option><option>2 minutes</option><option>5 minutes</option></select></div>
+                    <div class="form-group"><label>Alert Threshold</label><select><option>1 failure</option><option selected>3 failures</option><option>5 failures</option></select></div>
+                `, () => App.showToast('Monitor created!', 'success'), 'Create Monitor');
+            };
+        });
+    </script>
+</body>
+</html>
